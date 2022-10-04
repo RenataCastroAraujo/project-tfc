@@ -5,7 +5,7 @@ import { loginMock, oneUserMock, tokenMock } from './mocks/usersMock';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import UserModel from '../database/models/users';
+import UserModel from '../database/models/UserModel';
 
 import { Response } from 'superagent';
 
@@ -18,12 +18,12 @@ describe('POST /login', () => {
 
   before(async () => {
     sinon
-      .stub(UserModel, "create")
+      .stub(UserModel, "findOne")
       .resolves({id:1, ...oneUserMock} as UserModel);
   });
 
   after(()=>{
-    (UserModel.create as sinon.SinonStub).restore();
+    (UserModel.findOne as sinon.SinonStub).restore();
   })
 
   it('Quando login feito com sucesso retorna status 200 e um token', async () => {

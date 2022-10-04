@@ -1,7 +1,7 @@
-export default interface IUser {
+import ILogin from './ILogin';
+
+export default interface IUser extends ILogin{
   id?: number;
   username: string;
   role: string;
-  password: string;
-  email: string;
 }

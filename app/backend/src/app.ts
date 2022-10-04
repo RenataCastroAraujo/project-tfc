@@ -1,4 +1,14 @@
 import * as express from 'express';
+import LoginController from './controllers/LoginController';
+import Repository from './repository/repository';
+import LoginService from './services/LoginService';
+
+const factory = () => {
+  const repository = new Repository();
+  const loginService = new LoginService(repository);
+  const loginController = new LoginController(loginService);
+  return loginController;
+};
 
 class App {
   public app: express.Express;
@@ -22,6 +32,8 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+
+    this.app.post('/login', (req, res) => { factory().makeLogin(req, res); });
   }
 
   public start(PORT: string | number):void {

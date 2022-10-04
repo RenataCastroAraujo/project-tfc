@@ -1,7 +1,8 @@
 import { INTEGER, Model, STRING } from 'sequelize';
 import db from '.';
+import IUser from '../../interfaces/IUser';
 
-class UserModel extends Model {
+export default class UserModel extends Model implements IUser {
   id?: number;
   username: string;
   role: string;
@@ -37,5 +38,3 @@ UserModel.init({
   timestamps: false,
   tableName: 'users',
 });
-
-export default UserModel;
