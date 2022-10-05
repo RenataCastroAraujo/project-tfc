@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import { loginMock, oneUserMock, tokenMock } from './mocks/usersMock';
+import { failedLoginMock, loginMock, oneUserMock, tokenMock } from './mocks/usersMock';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -16,13 +16,13 @@ const { expect } = chai;
 describe('POST /login', () => {
   let chaiHttpResponse: Response;
 
-  before(async () => {
+  beforeEach(async () => {
     sinon
       .stub(UserModel, "findOne")
       .resolves({id:1, ...oneUserMock} as UserModel);
   });
 
-  after(()=>{
+  afterEach(()=>{
     (UserModel.findOne as sinon.SinonStub).restore();
   })
 
@@ -34,4 +34,12 @@ describe('POST /login', () => {
     expect(chaiHttpResponse.status).to.equal(200);
     expect(chaiHttpResponse.body).to.be.deep.equal(tokenMock)
 })
+  it('Falha quando login feito sem email ou senha, retorna status 400 e mensagem "All fields must be filled"', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .post('/login')
+      .send(failedLoginMock);
+    expect(chaiHttpResponse.status).to.equal(400);
+    expect(chaiHttpResponse.body).to.be.eql({message: 'All fields must be filled'});
+  })
 })

@@ -11,6 +11,11 @@ const loginMock = {
   password: 'secret_admin'
 }
 
+const failedLoginMock = {
+  email: '',
+  password: '',
+}
+
 const allUsersMock = [
   {
       username: 'Admin',
@@ -36,5 +41,6 @@ export {
   tokenMock,
   allUsersMock,
   oneUserMock,
-  loginMock
+  loginMock,
+  failedLoginMock
 }
