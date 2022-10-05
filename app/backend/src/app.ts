@@ -2,6 +2,7 @@ import * as express from 'express';
 import LoginController from './controllers/LoginController';
 import Repository from './repository/repository';
 import LoginService from './services/LoginService';
+import filterErrors from './utils/errors';
 
 const factory = () => {
   const repository = new Repository();
@@ -33,7 +34,8 @@ class App {
     this.app.use(express.json());
     this.app.use(accessControl);
 
-    this.app.post('/login', (req, res) => { factory().makeLogin(req, res); });
+    this.app.post('/login', (req, res) => factory().makeLogin(req, res));
+    this.app.use(filterErrors);
   }
 
   public start(PORT: string | number):void {

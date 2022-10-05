@@ -12,11 +12,15 @@ export default class LoginService implements ILoginService {
   async makeLogin({ email, password }: ILogin) {
     const userEmail = await this.userRepository.login(email);
     if (!userEmail) {
-      throw new Error('User not Found');
+      const error = new Error('Incorrect email or password');
+      error.name = 'Invalid';
+      throw error;
     }
     const verifyPassword = compareSync(password, userEmail.password);
     if (!verifyPassword) {
-      throw new Error('Access denied');
+      const error = new Error('Incorrect email or password');
+      error.name = 'Invalid';
+      throw error;
     }
     const token = createToken(email);
     return token;
