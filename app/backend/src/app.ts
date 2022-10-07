@@ -35,6 +35,7 @@ class App {
     this.app.use(accessControl);
 
     this.app.post('/login', (req, res) => factory().makeLogin(req, res));
+    this.app.get('/login/validate', (req, res) => factory().validateLogin(req, res));
     this.app.use(filterErrors);
   }
 

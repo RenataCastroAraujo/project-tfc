@@ -1,8 +1,10 @@
+import ILogin from './ILogin';
 import IUser from './IUser';
 
 export default interface ILoginService {
   makeLogin({
     email,
     password,
-  }: IUser): Promise<string | undefined>
+  }: ILogin): Promise<string | undefined>,
+  validateLogin(email: string): Promise<IUser | null>
 }

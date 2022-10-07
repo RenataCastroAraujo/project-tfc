@@ -6,7 +6,7 @@ const filterErrors: ErrorRequestHandler = (err, _req, res, _next) => {
   switch (name) {
     case 'Invalid': res.status(StatusCode.UNAUTHORIZED).json({ message });
       break;
-    default: console.warn(err); res.sendStatus(500);
+    default: res.sendStatus(500);
   }
 };
 
