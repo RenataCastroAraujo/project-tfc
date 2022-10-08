@@ -24,7 +24,6 @@ export default class LoginController {
   async getRole(req: Request, res: Response, next: NextFunction) {
     try {
       const email = validateTokenLogin(req.headers.authorization);
-
       if (!email) {
         return res.status(StatusCode.UNAUTHORIZED).json({ message: 'Token not found' });
       }

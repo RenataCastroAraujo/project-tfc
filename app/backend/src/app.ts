@@ -1,15 +1,7 @@
 import * as express from 'express';
-import LoginController from './controllers/LoginController';
-import Repository from './repository/repository';
-import LoginService from './services/LoginService';
+import loginRoute from './routes/loginRoute';
+import teamRoute from './routes/teamRoute';
 import filterErrors from './utils/errors';
-
-const factory = () => {
-  const repository = new Repository();
-  const loginService = new LoginService(repository);
-  const loginController = new LoginController(loginService);
-  return loginController;
-};
 
 class App {
   public app: express.Express;
@@ -35,8 +27,8 @@ class App {
     this.app.use(accessControl);
     this.app.use(filterErrors);
 
-    this.app.post('/login', (req, res, next) => factory().makeLogin(req, res, next));
-    this.app.get('/login/validate', (req, res, next) => factory().getRole(req, res, next));
+    this.app.use('/login', loginRoute);
+    this.app.use('/teams', teamRoute);
     this.app.use(filterErrors);
   }
 
