@@ -1,5 +1,4 @@
 import * as jwt from 'jsonwebtoken';
-import Err from './errorClass';
 
 export default function createToken(email: string): string {
   const secret = process.env.JWT_SECRET || 'TFC';
@@ -9,7 +8,7 @@ export default function createToken(email: string): string {
 
 function validateTokenLogin(authorization: string | undefined) {
   if (!authorization) {
-    throw new Err(404, 'Token not found');
+    throw new Error('Token not found');
   }
   try {
     const secret = process.env.JWT_SECRET || 'TFC';

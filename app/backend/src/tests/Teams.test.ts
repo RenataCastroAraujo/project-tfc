@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import allTeams from './mocks/teamsMock';
+import { allTeams, oneTeam } from './mocks/teamsMock';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('POST /teams', () => {
+describe('GET /teams', () => {
   let chaiHttpResponse: Response;
 
   beforeEach(async () => {
@@ -32,5 +32,25 @@ describe('POST /teams', () => {
        .post('/teams');
     expect(chaiHttpResponse.status).to.equal(200);
     expect(chaiHttpResponse.body).to.be.deep.equal(allTeams);
+})
+describe('GET /teams/:id', () => {
+  let chaiHttpResponse: Response;
+
+  beforeEach(async () => {
+    sinon
+      .stub(TeamsModel, "findByPk")
+      .resolves(oneTeam as any);
+  });
+
+  afterEach(()=>{
+    (TeamsModel.findByPk as sinon.SinonStub).restore();
+  })
+  it('Encontra um time quando passado o Id', async () => {
+    chaiHttpResponse = await chai
+      .request(app)
+      .post('/teams/1');
+    expect(chaiHttpResponse.status).to.equal(200);
+    expect(chaiHttpResponse.body).to.be.deep.equal(oneTeam);
+  })
 })
 })

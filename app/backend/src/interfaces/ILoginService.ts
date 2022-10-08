@@ -6,5 +6,5 @@ export default interface ILoginService {
     email,
     password,
   }: ILogin): Promise<string | undefined>,
-  validateLogin(email: string): Promise<IUser | null>
+  getUserByEmail(email: string): Promise<IUser | null>
 }

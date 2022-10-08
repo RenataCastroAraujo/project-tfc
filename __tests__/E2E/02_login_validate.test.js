@@ -190,20 +190,21 @@ describe(getRequirement(12), () => {
       "password": "secret_admin"
     });
 
+    
     expect(token).not.toBeNull();
-
+    
     const result = await axios
-      .get(
-        `${URL(containerPorts.backend).BASE_URL}/login/validate`,
-        {
-          headers: {
-            authorization: token
-          }
+    .get(
+      `${URL(containerPorts.backend).BASE_URL}/login/validate`,
+      {
+        headers: {
+          authorization: token
         }
+      }
       )
       .then(({ status, data }) => ({ status, data }))
       .catch(({ response: { status, data } }) => ({ status, data }));
-
+      
     expect(result).toHaveProperty("status");
     expect(result).toHaveProperty("data");
     expect(result.status).toBe(200);

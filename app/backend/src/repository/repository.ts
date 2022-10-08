@@ -6,7 +6,7 @@ export default class Repository {
     this.model = model;
   }
 
-  async login(email: string): Promise<IUser> {
+  async findUserByEmail(email: string): Promise<IUser> {
     const user = await this.model.findOne({ where: { email } });
     return user as IUser;
   }

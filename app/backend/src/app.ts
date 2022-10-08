@@ -33,9 +33,10 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+    this.app.use(filterErrors);
 
-    this.app.post('/login', (req, res) => factory().makeLogin(req, res));
-    this.app.get('/login/validate', (req, res) => factory().validateLogin(req, res));
+    this.app.post('/login', (req, res, next) => factory().makeLogin(req, res, next));
+    this.app.get('/login/validate', (req, res, next) => factory().getRole(req, res, next));
     this.app.use(filterErrors);
   }
 

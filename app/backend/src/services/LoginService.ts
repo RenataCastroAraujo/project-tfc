@@ -1,8 +1,8 @@
-import { compareSync } from 'bcryptjs';
 import ILogin from '../interfaces/ILogin';
 import ILoginService from '../interfaces/ILoginService';
 import IUser from '../interfaces/IUser';
 import Repository from '../repository/repository';
+import encryptPassword from '../utils/bcrypt';
 import createToken from '../utils/jwtAuth';
 
 export default class LoginService implements ILoginService {
@@ -11,26 +11,20 @@ export default class LoginService implements ILoginService {
   }
 
   async makeLogin({ email, password }: ILogin) {
-    const userEmail = await this.userRepository.login(email);
+    const userEmail = await this.userRepository.findUserByEmail(email);
     if (!userEmail) {
-      // throw new Err(401, 'Incorrect email or password');
-      const error = new Error('Incorrect email or password');
-      error.name = 'Invalid';
-      throw error;
+      throw new Error('Incorrect email or password');
     }
-    const verifyPassword = compareSync(password, userEmail.password);
+    const verifyPassword = encryptPassword(password, userEmail.password);
     if (!verifyPassword) {
-      // throw new Error('Incorrect email or password');
-      const error = new Error('Incorrect email or password');
-      error.name = 'Invalid';
-      throw error;
+      throw new Error('Incorrect email or password');
     }
     const token = createToken(email);
     return token;
   }
 
-  async validateLogin(email: string): Promise<IUser | null> {
-    const userEmail = await this.userRepository.login(email);
-    return userEmail;
+  async getUserByEmail(email: string): Promise<IUser | null> {
+    const user = await this.userRepository.findUserByEmail(email);
+    return user;
   }
 }
