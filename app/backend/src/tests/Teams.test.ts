@@ -29,7 +29,7 @@ describe('GET /teams', () => {
   it('Retorna os times ', async () => {
     chaiHttpResponse = await chai
        .request(app)
-       .post('/teams');
+       .get('/teams');
     expect(chaiHttpResponse.status).to.equal(200);
     expect(chaiHttpResponse.body).to.be.deep.equal(allTeams);
 })
@@ -48,7 +48,7 @@ describe('GET /teams/:id', () => {
   it('Encontra um time quando passado o Id', async () => {
     chaiHttpResponse = await chai
       .request(app)
-      .post('/teams/1');
+      .get('/teams/1');
     expect(chaiHttpResponse.status).to.equal(200);
     expect(chaiHttpResponse.body).to.be.deep.equal(oneTeam);
   })

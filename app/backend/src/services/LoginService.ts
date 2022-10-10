@@ -15,7 +15,7 @@ export default class LoginService implements ILoginService {
     if (!userEmail) {
       throw new Error('Incorrect email or password');
     }
-    const verifyPassword = encryptPassword(password, userEmail.password);
+    const verifyPassword = await encryptPassword(password, userEmail.password);
     if (!verifyPassword) {
       throw new Error('Incorrect email or password');
     }

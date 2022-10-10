@@ -42,7 +42,7 @@ describe('POST /login', () => {
     expect(chaiHttpResponse.status).to.equal(400);
     expect(chaiHttpResponse.body).to.be.eql({message: 'All fields must be filled'});
   })
-  it('Não permite acesso com email ou senha inválidos', async () => {
+  it('Não permite acesso com email invalido', async () => {
     chaiHttpResponse = await chai
       .request(app)
       .post('/login')

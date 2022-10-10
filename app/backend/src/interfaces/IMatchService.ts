@@ -1,5 +1,6 @@
 import IMatch from './IMatch';
 
 export default interface IMatchService {
-  findAllMatches(): Promise<IMatch[]>
+  findAllMatches(): Promise<IMatch[]>,
+  findMatchesByProgress(isInProgress: boolean): Promise<IMatch[]>
 }

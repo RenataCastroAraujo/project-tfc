@@ -1,4 +1,4 @@
-import MatchModel from '../database/models/MatchsModel';
+import MatchModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
 import IMatch from '../interfaces/IMatch';
 
@@ -13,5 +13,14 @@ export default class MatchRepository {
       { model: TeamsModel, as: 'teamAway', attributes: ['teamName'] },
     ] });
     return matches;
+  }
+
+  async findMatchesByProgress(isInProgress: boolean): Promise<IMatch[]> {
+    const matchesInProgress = await this.model.findAll({ where: { inProgress: isInProgress },
+      include: [
+        { model: TeamsModel, as: 'teamHome', attributes: ['teamName'] },
+        { model: TeamsModel, as: 'teamAway', attributes: ['teamName'] },
+      ] });
+    return matchesInProgress;
   }
 }
