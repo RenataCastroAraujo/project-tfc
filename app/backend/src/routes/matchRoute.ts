@@ -13,5 +13,6 @@ const factoryMatch = () => {
 };
 
 matchRoute.get('/', (req, res, next) => factoryMatch().findAllMatches(req, res, next));
+matchRoute.post('/', (req, res, next) => factoryMatch().createMatch(req, res, next));
 
 export default matchRoute;

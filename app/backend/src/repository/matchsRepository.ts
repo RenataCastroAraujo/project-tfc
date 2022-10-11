@@ -23,4 +23,9 @@ export default class MatchRepository {
       ] });
     return matchesInProgress;
   }
+
+  async createMatch(match: IMatch) {
+    const matchCreated = await this.model.create(match);
+    return matchCreated;
+  }
 }
