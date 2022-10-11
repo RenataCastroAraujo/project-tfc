@@ -6,6 +6,9 @@ const filterErrors: ErrorRequestHandler = (err, _req, res, _next) => {
   switch (message) {
     case 'Incorrect email or password': res.status(StatusCode.UNAUTHORIZED).json({ message });
       break;
+    case 'It is not possible to create a match with two equal teams':
+      res.status(StatusCode.UNAUTHORIZED).json({ message });
+      break;
     default: res.sendStatus(StatusCode.INTERNAL_SERVER_ERROR);
   }
 };

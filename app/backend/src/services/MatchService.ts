@@ -18,6 +18,10 @@ export default class TeamService implements IMatchService {
   }
 
   async createMatch(match: IMatch): Promise<IMatch> {
+    const { homeTeam, awayTeam } = match;
+    if (homeTeam === awayTeam) {
+      throw new Error('It is not possible to create a match with two equal teams');
+    }
     const matchCreated = await this.matchRepository.createMatch(match);
     return matchCreated;
   }
