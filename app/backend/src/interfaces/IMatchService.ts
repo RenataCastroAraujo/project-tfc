@@ -4,4 +4,5 @@ export default interface IMatchService {
   findAllMatches(): Promise<IMatch[]>,
   findMatchesByProgress(isInProgress: boolean): Promise<IMatch[]>
   createMatch(match: IMatch): Promise<IMatch>
+  updateInProgress(id: number): Promise<void>
 }

@@ -24,8 +24,12 @@ export default class MatchRepository {
     return matchesInProgress;
   }
 
-  async createMatch(match: IMatch) {
+  async createMatch(match: IMatch): Promise<IMatch> {
     const matchCreated = await this.model.create(match);
     return matchCreated;
+  }
+
+  async updateInProgress(id: number): Promise<void> {
+    await this.model.update({ inProgress: false }, { where: { id } });
   }
 }

@@ -36,4 +36,17 @@ export default class MatchController {
       next(error);
     }
   }
+
+  async updateInProgress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        throw new Error('Id not exist');
+      }
+      await this.matchService.updateInProgress(Number(id));
+      return res.status(StatusCode.OK).json({ message: 'Finished' });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -21,4 +21,9 @@ export default class TeamService implements IMatchService {
     const matchCreated = await this.matchRepository.createMatch(match);
     return matchCreated;
   }
+
+  async updateInProgress(id: number) {
+    const update = await this.matchRepository.updateInProgress(id);
+    return update;
+  }
 }
