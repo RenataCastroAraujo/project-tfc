@@ -7,16 +7,12 @@ export default function createToken(email: string): string {
 }
 
 function validateTokenLogin(authorization: string | undefined) {
-  if (!authorization) {
-    throw new Error('Token not found');
-  }
-  try {
-    const secret = process.env.JWT_SECRET || 'TFC';
-    const decoded = jwt.verify(authorization, secret);
-    return decoded;
-  } catch (error) {
-    return error;
-  }
+  // if (!authorization) {
+  //   throw new Error('Token must be a valid token');
+  // }
+  const secret = process.env.JWT_SECRET || 'TFC';
+  const decoded = jwt.verify(authorization as string, secret);
+  return decoded;
 }
 
 export { validateTokenLogin };

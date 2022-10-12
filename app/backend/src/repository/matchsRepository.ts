@@ -32,4 +32,12 @@ export default class MatchRepository {
   async updateInProgress(id: number): Promise<void> {
     await this.model.update({ inProgress: false }, { where: { id } });
   }
+
+  async updateMatchInProgress(id: number, goals: IMatch): Promise<void> {
+    const { homeTeamGoals, awayTeamGoals } = goals;
+    await this.model.update({
+      homeTeamGoals,
+      awayTeamGoals,
+    }, { where: { id } });
+  }
 }

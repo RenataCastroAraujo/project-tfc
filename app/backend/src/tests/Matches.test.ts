@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import { allMatches, matchesInProgressFalse, matchesInProgressTrue } from './mocks/matchesMock';
+import { allMatches, matchCreate, matchesInProgressFalse, matchesInProgressTrue } from './mocks/matchesMock';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -83,4 +83,51 @@ describe('GET /matches false', () => {
     expect(chaiHttpResponse.body).to.be.deep.equal(matchesInProgressFalse);
   })
 })
+  describe('POST /matches', () => {
+    let chaiHttpResponse: Response;
+    beforeEach(async () => {
+      sinon
+        .stub(MatchModel, "create")
+        .resolves(matchCreate as any);
+    })
+    afterEach(() => {
+      (MatchModel.create as sinon.SinonStub).restore();
+    })
+  it('Salva uma partida com sucesso no banco de dados', async () => {
+    chaiHttpResponse = await chai
+    .request(app)
+    .post('/matches')
+    .send({
+      "homeTeam": 16,
+      "awayTeam": 8,
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2,
+      "inProgress": true
+    });
+  expect(chaiHttpResponse.status).to.equal(200);
+  expect(chaiHttpResponse.body).to.be.deep.equal(matchCreate);
+  })
+  })
+  describe('PATCH /matches', () => {
+    let chaiHttpResponse: Response;
+    beforeEach(async () => {
+      sinon
+        .stub(MatchModel, "update")
+        .resolves();
+    })
+    afterEach(() => {
+      (MatchModel.update as sinon.SinonStub).restore();
+    })
+    it('Atualiza uma partida em andamento', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .patch('/matches/1')
+        .send({
+          "homeTeamGoals": 3,
+          "awayTeamGoals": 1
+        })
+      expect(chaiHttpResponse.status).to.equal(200);
+      expect(chaiHttpResponse.body).to.be.equal({ message: 'Match updated' });
+    })
+  })
 })

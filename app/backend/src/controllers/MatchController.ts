@@ -25,9 +25,9 @@ export default class MatchController {
 
   async createMatch(req: Request, res: Response, next: NextFunction) {
     try {
-      const email = validateTokenLogin(req.headers.authorization);
-      if (!email) {
-        return res.status(StatusCode.UNAUTHORIZED).json({ message: 'Token not found' });
+      const tokenValidationResult = validateTokenLogin(req.headers.authorization);
+      if (!tokenValidationResult) {
+        throw new Error('Token must be a valid token');
       }
       const matchBody = req.body;
       const match = await this.matchService.createMatch(matchBody);
@@ -45,6 +45,17 @@ export default class MatchController {
       }
       await this.matchService.updateInProgress(Number(id));
       return res.status(StatusCode.OK).json({ message: 'Finished' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateMatchInProgress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const goals = req.body;
+      await this.matchService.updateMatchInProgress(Number(id), goals);
+      return res.status(StatusCode.OK).json({ message: 'Match updated' });
     } catch (error) {
       next(error);
     }
