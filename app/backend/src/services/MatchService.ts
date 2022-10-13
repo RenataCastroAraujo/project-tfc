@@ -1,4 +1,4 @@
-import IMatch from '../interfaces/IMatch';
+import IMatch, { IMatchHomeGoalsAwayGoals } from '../interfaces/IMatch';
 import IMatchService from '../interfaces/IMatchService';
 import MatchRepository from '../repository/matchsRepository';
 import TeamRepository from '../repository/teamsRepository';
@@ -38,7 +38,7 @@ export default class TeamService implements IMatchService {
     return update;
   }
 
-  async updateMatchInProgress(id: number, goals: IMatch) {
+  async updateMatchInProgress(id: number, goals: IMatchHomeGoalsAwayGoals) {
     const updateGoals = await this.matchRepository.updateMatchInProgress(id, goals);
     return updateGoals;
   }

@@ -1,6 +1,6 @@
 import MatchModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import IMatch from '../interfaces/IMatch';
+import IMatch, { IMatchHomeGoalsAwayGoals } from '../interfaces/IMatch';
 
 export default class MatchRepository {
   constructor(private model = MatchModel) {
@@ -33,7 +33,7 @@ export default class MatchRepository {
     await this.model.update({ inProgress: false }, { where: { id } });
   }
 
-  async updateMatchInProgress(id: number, goals: IMatch): Promise<void> {
+  async updateMatchInProgress(id: number, goals: IMatchHomeGoalsAwayGoals): Promise<void> {
     const { homeTeamGoals, awayTeamGoals } = goals;
     await this.model.update({
       homeTeamGoals,
